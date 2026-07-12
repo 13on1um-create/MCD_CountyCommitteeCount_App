@@ -6,7 +6,7 @@ st.caption("2024 Kings County Democratic Party Call — Democratic enrollment & 
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("KingsCounty_ED_Master.csv")
+    return pd.read_csv("KingsCounty_ED_Master.csv", dtype={"VoteTally": "Int64"})
 
 df = load_data()
 
@@ -16,6 +16,8 @@ ed = st.selectbox("Election District (ED)", eds)
 
 row = df[(df["AD"] == ad) & (df["ED"] == ed)].iloc[0]
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 col1.metric("Democratic", int(row["Democratic"]))
 col2.metric("County Committee Count", int(row["CountyCommitteeCount"]))
+tally = row["VoteTally"]
+col3.metric("Vote Tally", int(tally) if pd.notna(tally) else "N/A")
