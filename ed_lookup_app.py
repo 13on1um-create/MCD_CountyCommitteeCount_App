@@ -1,0 +1,21 @@
+import pandas as pd
+import streamlit as st
+
+st.title("Kings County ED Lookup")
+st.caption("2024 Kings County Democratic Party Call — Democratic enrollment & County Committee seats by AD/ED")
+
+@st.cache_data
+def load_data():
+    return pd.read_csv("KingsCounty_ED_Master.csv")
+
+df = load_data()
+
+ad = st.selectbox("Assembly District (AD)", sorted(df["AD"].unique()))
+eds = sorted(df.loc[df["AD"] == ad, "ED"])
+ed = st.selectbox("Election District (ED)", eds)
+
+row = df[(df["AD"] == ad) & (df["ED"] == ed)].iloc[0]
+
+col1, col2 = st.columns(2)
+col1.metric("Democratic", int(row["Democratic"]))
+col2.metric("County Committee Count", int(row["CountyCommitteeCount"]))
