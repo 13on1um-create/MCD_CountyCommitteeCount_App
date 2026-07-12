@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-st.title("Kings County ED Lookup")
+st.title("Kings County AD/ED Committee Count Lookup")
 st.caption("2024 Kings County Democratic Party Call — Democratic enrollment & County Committee seats by AD/ED")
 
 @st.cache_data
